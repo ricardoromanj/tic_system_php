@@ -1,0 +1,12 @@
+body {
+	padding-top: 50px;
+}
+#_footer {
+	border-top: 1px;
+	min-height: 30px;
+	padding-top: 10px;
+}
+.tic-sidebar {
+	border-left: 1px solid #eeeeee;
+	background-color: #fff;
+}

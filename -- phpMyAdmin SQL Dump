@@ -1,0 +1,698 @@
+-- phpMyAdmin SQL Dump
+-- version 4.0.5
+-- http://www.phpmyadmin.net
+--
+-- Host: localhost
+-- Generation Time: Mar 31, 2014 at 03:25 AM
+-- Server version: 5.5.29
+-- PHP Version: 5.4.10
+
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET time_zone = "+00:00";
+
+--
+-- Database: `ricardoroman`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcement`
+--
+
+CREATE TABLE `announcement` (
+  `announcement_id` int(11) NOT NULL,
+  `announcement_date` datetime NOT NULL,
+  `announcement_heading` varchar(45) NOT NULL,
+  `announcement_text` longtext NOT NULL,
+  `announcement_audience` varchar(45) DEFAULT NULL,
+  `announcement_type` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`announcement_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `announcement`
+--
+
+INSERT INTO `announcement` (`announcement_id`, `announcement_date`, `announcement_heading`, `announcement_text`, `announcement_audience`, `announcement_type`) VALUES
+(1, '2014-03-02 16:16:45', 'Announcement 1', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.', '', NULL),
+(2, '2014-03-02 19:13:05', 'Announcement 2', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.', 'coordinator', 'info'),
+(3, '2014-03-01 00:00:00', 'Announcement 3', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.', 'tutor', 'info'),
+(4, '2014-02-20 14:52:00', 'Announcement 4', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.', 'coordinator', 'warning'),
+(5, '2014-02-19 10:00:00', 'Announcement 5', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.', 'tutor', 'danger'),
+(6, '2013-09-13 16:16:45', 'Announcement 6', 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum. Nam quam nunc, blandit vel, luctus pulvinar, hendrerit id, lorem. Maecenas nec odio et ante tincidunt tempus. Donec vitae sapien ut libero venenatis faucibus. Nullam quis ante. Etiam sit amet orci eget eros faucibus tincidunt. Duis leo. Sed fringilla mauris sit amet nibh. Donec sodales sagittis magna.', '', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `announcementsemester`
+--
+
+CREATE TABLE `announcementsemester` (
+  `announcementsemester_id` int(11) NOT NULL,
+  `semester_semester_id` int(11) NOT NULL,
+  `announcement_announcement_id` int(11) NOT NULL,
+  PRIMARY KEY (`announcementsemester_id`),
+  KEY `fk_announcementsemester_semester1` (`semester_semester_id`),
+  KEY `fk_announcementsemester_announcement1` (`announcement_announcement_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `announcementsemester`
+--
+
+INSERT INTO `announcementsemester` (`announcementsemester_id`, `semester_semester_id`, `announcement_announcement_id`) VALUES
+(1, 2, 1),
+(2, 2, 2),
+(3, 2, 3),
+(4, 2, 4),
+(5, 2, 5),
+(6, 1, 6);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assistancecatechesis`
+--
+
+CREATE TABLE `assistancecatechesis` (
+  `assitancecatechesis_id` int(11) NOT NULL AUTO_INCREMENT,
+  `assitancecatechesis_assitance` tinyint(1) DEFAULT NULL,
+  `assistancecatechesis_notes` text,
+  `assistancecatechesis_child_id` int(11) NOT NULL,
+  `assistancecatechesis_saturday_id` int(11) NOT NULL,
+  `assistancecatechesis_catechesis_id` int(11) NOT NULL,
+  PRIMARY KEY (`assitancecatechesis_id`),
+  KEY `fk_assistancecatechesis_child1` (`assistancecatechesis_child_id`),
+  KEY `fk_assistancecatechesis_saturday1` (`assistancecatechesis_saturday_id`),
+  KEY `fk_assistancecatechesis_catechesis1` (`assistancecatechesis_catechesis_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `assistanceworkshop`
+--
+
+CREATE TABLE `assistanceworkshop` (
+  `assitanceworkshop_id` int(11) NOT NULL AUTO_INCREMENT,
+  `assitanceworkshop_assitance` tinyint(1) DEFAULT NULL,
+  `assistanceworkshop_notes` text,
+  `assistanceworkshop_child_id` int(11) NOT NULL,
+  `assistanceworkshop_saturday_id` int(11) NOT NULL,
+  `assistanceworkshop_workshop_id` int(11) NOT NULL,
+  PRIMARY KEY (`assitanceworkshop_id`),
+  KEY `fk_assistanceworkshop_child1` (`assistanceworkshop_child_id`),
+  KEY `fk_assistanceworkshop_saturday1` (`assistanceworkshop_saturday_id`),
+  KEY `fk_assistanceworkshop_workshop1` (`assistanceworkshop_workshop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catechesis`
+--
+
+CREATE TABLE `catechesis` (
+  `catechesis_id` int(11) NOT NULL,
+  `catechesis_name` varchar(45) NOT NULL,
+  `catechesis_desc` text,
+  `catechesis_picture` varchar(45) NOT NULL,
+  PRIMARY KEY (`catechesis_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `catechesis`
+--
+
+INSERT INTO `catechesis` (`catechesis_id`, `catechesis_name`, `catechesis_desc`, `catechesis_picture`) VALUES
+(1, 'Uvas', 'Catequesis de 8 años', 'N/A'),
+(2, 'Peras', 'Catequesis de 6 años', 'N/A');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `catechesissemester`
+--
+
+CREATE TABLE `catechesissemester` (
+  `catechesissemester_id` int(11) NOT NULL,
+  `catechesissemester_catechesis_id` int(11) NOT NULL,
+  `catechesissemester_semester_id` int(11) NOT NULL,
+  PRIMARY KEY (`catechesissemester_id`),
+  KEY `fk_catechesissemester_catechesis1` (`catechesissemester_catechesis_id`),
+  KEY `fk_catechesissemester_semester1` (`catechesissemester_semester_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `catechesissemester`
+--
+
+INSERT INTO `catechesissemester` (`catechesissemester_id`, `catechesissemester_catechesis_id`, `catechesissemester_semester_id`) VALUES
+(1, 1, 2),
+(2, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `child`
+--
+
+CREATE TABLE `child` (
+  `child_id` int(11) NOT NULL AUTO_INCREMENT,
+  `child_name` varchar(45) NOT NULL,
+  `child_second_name` varchar(45) DEFAULT NULL,
+  `child_lastname` varchar(45) NOT NULL,
+  `child_second_lastname` varchar(45) DEFAULT NULL,
+  `child_gender` char(1) NOT NULL,
+  `child_birthdate` datetime NOT NULL,
+  `child_allgergies` text NOT NULL,
+  `child_medical_notes` text,
+  `child_general_notes` text,
+  `child_picture` varchar(45) NOT NULL,
+  `child_date_added` datetime NOT NULL,
+  `child_active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`child_id`)
+) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+
+--
+-- Dumping data for table `child`
+--
+
+INSERT INTO `child` (`child_id`, `child_name`, `child_second_name`, `child_lastname`, `child_second_lastname`, `child_gender`, `child_birthdate`, `child_allgergies`, `child_medical_notes`, `child_general_notes`, `child_picture`, `child_date_added`, `child_active`) VALUES
+(1, 'childone', NULL, 'childone_lastname', NULL, 'M', '2007-12-19 00:00:00', 'N/A', NULL, NULL, 'N/A', '2014-02-08 00:00:00', 1),
+(2, 'childtwo', 'childtwo_secondname', 'childtwo_lastname', 'childtwo_secondlastname', 'F', '2006-03-20 00:00:00', 'N/A', NULL, NULL, 'N/A', '2014-03-01 00:00:00', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `childcatechesis`
+--
+
+CREATE TABLE `childcatechesis` (
+  `childcatechesis_id` int(11) NOT NULL,
+  `childcatechesis_catechesis_id` int(11) NOT NULL,
+  `childcatechesis_child_id` int(11) NOT NULL,
+  PRIMARY KEY (`childcatechesis_id`),
+  KEY `fk_childcatechesis_catechesis1` (`childcatechesis_catechesis_id`),
+  KEY `fk_childcatechesis_child1` (`childcatechesis_child_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `childcatechesis`
+--
+
+INSERT INTO `childcatechesis` (`childcatechesis_id`, `childcatechesis_catechesis_id`, `childcatechesis_child_id`) VALUES
+(1, 1, 1),
+(2, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `childsemester`
+--
+
+CREATE TABLE `childsemester` (
+  `childsemester_id` int(11) NOT NULL,
+  `childsemester_child_id` int(11) NOT NULL,
+  `childsemester_semester_id` int(11) NOT NULL,
+  PRIMARY KEY (`childsemester_id`),
+  KEY `fk_childsemester_child1` (`childsemester_child_id`),
+  KEY `fk_childsemester_semester1` (`childsemester_semester_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `childsemester`
+--
+
+INSERT INTO `childsemester` (`childsemester_id`, `childsemester_child_id`, `childsemester_semester_id`) VALUES
+(1, 1, 2),
+(2, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `childtutor`
+--
+
+CREATE TABLE `childtutor` (
+  `childtutor_id` int(11) NOT NULL,
+  `childtutor_tutor_id` int(11) NOT NULL,
+  `childtutor_child_id` int(11) NOT NULL,
+  PRIMARY KEY (`childtutor_id`),
+  KEY `fk_childtutor_tutor1` (`childtutor_tutor_id`),
+  KEY `fk_childtutor_child1` (`childtutor_child_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `childtutor`
+--
+
+INSERT INTO `childtutor` (`childtutor_id`, `childtutor_tutor_id`, `childtutor_child_id`) VALUES
+(1, 1, 1),
+(2, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `childworkshop`
+--
+
+CREATE TABLE `childworkshop` (
+  `childworkshop_id` int(11) NOT NULL,
+  `workshop_workshop_id` int(11) NOT NULL,
+  `child_child_id` int(11) NOT NULL,
+  PRIMARY KEY (`childworkshop_id`),
+  KEY `fk_childworkshop_workshop1` (`workshop_workshop_id`),
+  KEY `fk_childworkshop_child1` (`child_child_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `childworkshop`
+--
+
+INSERT INTO `childworkshop` (`childworkshop_id`, `workshop_workshop_id`, `child_child_id`) VALUES
+(1, 1, 1),
+(2, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coordinator`
+--
+
+CREATE TABLE `coordinator` (
+  `coordinator_id` int(11) NOT NULL,
+  `coordinator_name` varchar(45) NOT NULL,
+  `coordinator_second_name` varchar(45) DEFAULT NULL,
+  `coordinator_lastname` varchar(45) NOT NULL,
+  `coordinator_second_lastname` varchar(45) DEFAULT NULL,
+  `coordinator_gender` char(1) NOT NULL,
+  `coordinator_notes` text,
+  `coordinator_picture` varchar(45) NOT NULL,
+  `coordinator_date_added` datetime NOT NULL,
+  `coordinator_user_id` int(11) NOT NULL,
+  PRIMARY KEY (`coordinator_id`),
+  KEY `fk_coordinator_user1` (`coordinator_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `coordinator`
+--
+
+INSERT INTO `coordinator` (`coordinator_id`, `coordinator_name`, `coordinator_second_name`, `coordinator_lastname`, `coordinator_second_lastname`, `coordinator_gender`, `coordinator_notes`, `coordinator_picture`, `coordinator_date_added`, `coordinator_user_id`) VALUES
+(1, 'Ricardo', NULL, 'Román', 'Jiménez', 'M', NULL, 'N/A', '2010-08-21 00:00:00', 1),
+(2, 'Diana', 'Margarita', 'Macías', 'Soto', 'F', NULL, 'N/A', '2011-01-11 00:00:00', 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coordinatorcatechesis`
+--
+
+CREATE TABLE `coordinatorcatechesis` (
+  `coordinatorcatechesis_id` int(11) NOT NULL,
+  `coordinatorcatechesis_catechesis_id` int(11) NOT NULL,
+  `coordinatorcatechesis_coordinator_id` int(11) NOT NULL,
+  PRIMARY KEY (`coordinatorcatechesis_id`),
+  KEY `fk_coordinatorcatechesis_catechesis1` (`coordinatorcatechesis_catechesis_id`),
+  KEY `fk_coordinatorcatechesis_coordinator1` (`coordinatorcatechesis_coordinator_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `coordinatorcatechesis`
+--
+
+INSERT INTO `coordinatorcatechesis` (`coordinatorcatechesis_id`, `coordinatorcatechesis_catechesis_id`, `coordinatorcatechesis_coordinator_id`) VALUES
+(1, 1, 1),
+(2, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `coordinatorworkshop`
+--
+
+CREATE TABLE `coordinatorworkshop` (
+  `coordinatorworkshop_id` int(11) NOT NULL,
+  `coordinatorworkshop_coordinator_id` int(11) NOT NULL,
+  `coordinatorworkshop_workshop_id` int(11) NOT NULL,
+  PRIMARY KEY (`coordinatorworkshop_id`),
+  KEY `fk_coordinatorworkshop_coordinator1` (`coordinatorworkshop_coordinator_id`),
+  KEY `fk_coordinatorworkshop_workshop1` (`coordinatorworkshop_workshop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `coordinatorworkshop`
+--
+
+INSERT INTO `coordinatorworkshop` (`coordinatorworkshop_id`, `coordinatorworkshop_coordinator_id`, `coordinatorworkshop_workshop_id`) VALUES
+(1, 1, 1),
+(2, 2, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emailcoordinator`
+--
+
+CREATE TABLE `emailcoordinator` (
+  `emailcoordinator_id` int(11) NOT NULL,
+  `emailcoordinator_address` varchar(45) DEFAULT NULL,
+  `emailcoordinator_type` varchar(45) DEFAULT NULL,
+  `emailcoordinator_primary` tinyint(1) DEFAULT NULL,
+  `emailcoordinator_coordinator_id` int(11) NOT NULL,
+  PRIMARY KEY (`emailcoordinator_id`),
+  KEY `fk_emailcoordinator_coordinator1` (`emailcoordinator_coordinator_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `emailcoordinator`
+--
+
+INSERT INTO `emailcoordinator` (`emailcoordinator_id`, `emailcoordinator_address`, `emailcoordinator_type`, `emailcoordinator_primary`, `emailcoordinator_coordinator_id`) VALUES
+(1, 'r.rmn92@gmail.com', 'personal', 1, 1),
+(2, 'rrj@transtelco.net', 'work', NULL, 1),
+(3, 'dms.macias2@gmail.com', 'personal', 1, 2),
+(4, 'dms.macias@ticnsp.org', 'work', NULL, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `emailtutor`
+--
+
+CREATE TABLE `emailtutor` (
+  `emailtutor_id` int(11) NOT NULL,
+  `emailtutor_address` varchar(45) NOT NULL,
+  `emailtutor_type` varchar(45) DEFAULT NULL,
+  `emailtutor_primary` tinyint(1) DEFAULT NULL,
+  `emailtutor_tutor_id` int(11) NOT NULL,
+  PRIMARY KEY (`emailtutor_id`),
+  KEY `fk_emailtutor_tutor1` (`emailtutor_tutor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `emailtutor`
+--
+
+INSERT INTO `emailtutor` (`emailtutor_id`, `emailtutor_address`, `emailtutor_type`, `emailtutor_primary`, `emailtutor_tutor_id`) VALUES
+(1, 'tutorone@example.com', 'home', 1, 1),
+(2, 'tutortwo@company.com', 'work', 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phonecoordinator`
+--
+
+CREATE TABLE `phonecoordinator` (
+  `phonecoordinator_id` int(11) NOT NULL,
+  `phonecoordinator_number` varchar(45) NOT NULL,
+  `phonecoordinator_type` varchar(45) NOT NULL,
+  `phonecoordinator_primary` tinyint(1) NOT NULL,
+  `phonecoordinator_coordinator_id` int(11) NOT NULL,
+  PRIMARY KEY (`phonecoordinator_id`),
+  KEY `fk_phonecoordinator_coordinator1` (`phonecoordinator_coordinator_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `phonetutor`
+--
+
+CREATE TABLE `phonetutor` (
+  `phonetutor_id` int(11) NOT NULL,
+  `phonetutor_number` varchar(45) NOT NULL,
+  `phonetutor_type` varchar(45) NOT NULL,
+  `phonetutor_primary` tinyint(1) DEFAULT NULL,
+  `phonetutor_tutor_id` int(11) NOT NULL,
+  PRIMARY KEY (`phonetutor_id`),
+  KEY `fk_phonetutor_tutor1` (`phonetutor_tutor_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `phonetutor`
+--
+
+INSERT INTO `phonetutor` (`phonetutor_id`, `phonetutor_number`, `phonetutor_type`, `phonetutor_primary`, `phonetutor_tutor_id`) VALUES
+(1, '1234567', 'home', NULL, 1),
+(2, '6561234567', 'mobile', 1, 1),
+(3, '7654321', 'home', 1, 2);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `saturday`
+--
+
+CREATE TABLE `saturday` (
+  `saturday_id` int(11) NOT NULL AUTO_INCREMENT,
+  `saturday_date` datetime DEFAULT NULL,
+  `saturday_notes` text,
+  `saturday_heading` varchar(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`saturday_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `semester`
+--
+
+CREATE TABLE `semester` (
+  `semester_id` int(11) NOT NULL,
+  `semester_name` varchar(45) NOT NULL,
+  `semester_begin_date` datetime NOT NULL,
+  `semester_end_date` datetime NOT NULL,
+  PRIMARY KEY (`semester_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `semester`
+--
+
+INSERT INTO `semester` (`semester_id`, `semester_name`, `semester_begin_date`, `semester_end_date`) VALUES
+(1, 'AGO-DIC2013', '2013-08-01 00:00:00', '2013-12-31 00:00:00'),
+(2, 'ENE-JUL2014', '2014-01-01 00:00:00', '2014-07-31 00:00:00');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tutor`
+--
+
+CREATE TABLE `tutor` (
+  `tutor_id` int(11) NOT NULL,
+  `tutor_name` varchar(45) NOT NULL,
+  `tutor_second_name` varchar(45) DEFAULT NULL,
+  `tutor_lastname` varchar(45) NOT NULL,
+  `tutor_second_lastname` varchar(45) DEFAULT NULL,
+  `tutor_gender` char(1) NOT NULL,
+  `tutor_role` varchar(45) NOT NULL,
+  `tutor_notes` text,
+  `tutor_picture` varchar(45) NOT NULL,
+  `tutor_date_added` datetime NOT NULL,
+  `tutor_user_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`tutor_id`),
+  KEY `fk_tutor_user1` (`tutor_user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tutor`
+--
+
+INSERT INTO `tutor` (`tutor_id`, `tutor_name`, `tutor_second_name`, `tutor_lastname`, `tutor_second_lastname`, `tutor_gender`, `tutor_role`, `tutor_notes`, `tutor_picture`, `tutor_date_added`, `tutor_user_id`) VALUES
+(1, 'tutorone', NULL, 'tutorone_lastname', NULL, 'M', 'father', NULL, 'N/A', '2014-03-02 00:00:00', 3),
+(2, 'tutortwo', 'tutortwo_secondname', 'tutortwo_lastname', 'tutortwo_secondlastname', 'F', 'mother', NULL, 'N/A', '2014-03-02 00:00:00', 4);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `user`
+--
+
+CREATE TABLE `user` (
+  `user_id` int(11) NOT NULL,
+  `user_username` varchar(45) NOT NULL,
+  `user_password` varchar(45) NOT NULL,
+  `user_type` varchar(45) NOT NULL,
+  `user_active` tinyint(1) NOT NULL,
+  PRIMARY KEY (`user_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `user`
+--
+
+INSERT INTO `user` (`user_id`, `user_username`, `user_password`, `user_type`, `user_active`) VALUES
+(1, 'dianamacias', '40708ec79a71f076c48225804bedb88cfe3fba3b', 'coordinator', 1),
+(2, 'ricardoroman', 'd75588cef4f1fb2d8387eb00f5666e62cc19dc28', 'coordinator', 1),
+(3, 'tutorone', '2b6e277b5d58cebb4e56ad71c5f0d9b9afe8ca02', 'tutor', 1),
+(4, 'tutortwo', '148a401c0031c5013b138f237daf29860a73b27c', 'tutor', 1),
+(5, 'administrator', 'b3aca92c793ee0e9b1a9b0a5f5fc044e05140df3', 'administrator', 1);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `workshop`
+--
+
+CREATE TABLE `workshop` (
+  `workshop_id` int(11) NOT NULL,
+  `workshop_name` varchar(45) NOT NULL,
+  `workshop_desc` text,
+  `workshop_picture` varchar(45) NOT NULL,
+  PRIMARY KEY (`workshop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `workshop`
+--
+
+INSERT INTO `workshop` (`workshop_id`, `workshop_name`, `workshop_desc`, `workshop_picture`) VALUES
+(1, 'Guitarra', 'Taller de guitarra ENE-JUL2014', 'N/A'),
+(2, 'Baile', 'Taller de baile ENE-JUL2014', 'N/A');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `workshopsemester`
+--
+
+CREATE TABLE `workshopsemester` (
+  `workshopsemester_id` int(11) NOT NULL,
+  `workshopsemester_semester_id` int(11) NOT NULL,
+  `workshopsemester_workshop_id` int(11) NOT NULL,
+  PRIMARY KEY (`workshopsemester_id`),
+  KEY `fk_workshopsemester_semester1` (`workshopsemester_semester_id`),
+  KEY `fk_workshopsemester_workshop1` (`workshopsemester_workshop_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `workshopsemester`
+--
+
+INSERT INTO `workshopsemester` (`workshopsemester_id`, `workshopsemester_semester_id`, `workshopsemester_workshop_id`) VALUES
+(1, 2, 1),
+(2, 2, 2);
+
+--
+-- Constraints for dumped tables
+--
+
+--
+-- Constraints for table `announcementsemester`
+--
+ALTER TABLE `announcementsemester`
+  ADD CONSTRAINT `fk_announcementsemester_announcement1` FOREIGN KEY (`announcement_announcement_id`) REFERENCES `announcement` (`announcement_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_announcementsemester_semester1` FOREIGN KEY (`semester_semester_id`) REFERENCES `semester` (`semester_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `assistancecatechesis`
+--
+ALTER TABLE `assistancecatechesis`
+  ADD CONSTRAINT `fk_assistancecatechesis_catechesis1` FOREIGN KEY (`assistancecatechesis_catechesis_id`) REFERENCES `catechesis` (`catechesis_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_assistancecatechesis_child1` FOREIGN KEY (`assistancecatechesis_child_id`) REFERENCES `child` (`child_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_assistancecatechesis_saturday1` FOREIGN KEY (`assistancecatechesis_saturday_id`) REFERENCES `saturday` (`saturday_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `assistanceworkshop`
+--
+ALTER TABLE `assistanceworkshop`
+  ADD CONSTRAINT `fk_assistanceworkshop_child1` FOREIGN KEY (`assistanceworkshop_child_id`) REFERENCES `child` (`child_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_assistanceworkshop_saturday1` FOREIGN KEY (`assistanceworkshop_saturday_id`) REFERENCES `saturday` (`saturday_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_assistanceworkshop_workshop1` FOREIGN KEY (`assistanceworkshop_workshop_id`) REFERENCES `workshop` (`workshop_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `catechesissemester`
+--
+ALTER TABLE `catechesissemester`
+  ADD CONSTRAINT `fk_catechesissemester_catechesis1` FOREIGN KEY (`catechesissemester_catechesis_id`) REFERENCES `catechesis` (`catechesis_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_catechesissemester_semester1` FOREIGN KEY (`catechesissemester_semester_id`) REFERENCES `semester` (`semester_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `childcatechesis`
+--
+ALTER TABLE `childcatechesis`
+  ADD CONSTRAINT `fk_childcatechesis_catechesis1` FOREIGN KEY (`childcatechesis_catechesis_id`) REFERENCES `catechesis` (`catechesis_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_childcatechesis_child1` FOREIGN KEY (`childcatechesis_child_id`) REFERENCES `child` (`child_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `childsemester`
+--
+ALTER TABLE `childsemester`
+  ADD CONSTRAINT `fk_childsemester_child1` FOREIGN KEY (`childsemester_child_id`) REFERENCES `child` (`child_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_childsemester_semester1` FOREIGN KEY (`childsemester_semester_id`) REFERENCES `semester` (`semester_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `childtutor`
+--
+ALTER TABLE `childtutor`
+  ADD CONSTRAINT `fk_childtutor_child1` FOREIGN KEY (`childtutor_child_id`) REFERENCES `child` (`child_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_childtutor_tutor1` FOREIGN KEY (`childtutor_tutor_id`) REFERENCES `tutor` (`tutor_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `childworkshop`
+--
+ALTER TABLE `childworkshop`
+  ADD CONSTRAINT `fk_childworkshop_child1` FOREIGN KEY (`child_child_id`) REFERENCES `child` (`child_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_childworkshop_workshop1` FOREIGN KEY (`workshop_workshop_id`) REFERENCES `workshop` (`workshop_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `coordinator`
+--
+ALTER TABLE `coordinator`
+  ADD CONSTRAINT `fk_coordinator_user1` FOREIGN KEY (`coordinator_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `coordinatorcatechesis`
+--
+ALTER TABLE `coordinatorcatechesis`
+  ADD CONSTRAINT `fk_coordinatorcatechesis_catechesis1` FOREIGN KEY (`coordinatorcatechesis_catechesis_id`) REFERENCES `catechesis` (`catechesis_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_coordinatorcatechesis_coordinator1` FOREIGN KEY (`coordinatorcatechesis_coordinator_id`) REFERENCES `coordinator` (`coordinator_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `coordinatorworkshop`
+--
+ALTER TABLE `coordinatorworkshop`
+  ADD CONSTRAINT `fk_coordinatorworkshop_coordinator1` FOREIGN KEY (`coordinatorworkshop_coordinator_id`) REFERENCES `coordinator` (`coordinator_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_coordinatorworkshop_workshop1` FOREIGN KEY (`coordinatorworkshop_workshop_id`) REFERENCES `workshop` (`workshop_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `emailcoordinator`
+--
+ALTER TABLE `emailcoordinator`
+  ADD CONSTRAINT `fk_emailcoordinator_coordinator1` FOREIGN KEY (`emailcoordinator_coordinator_id`) REFERENCES `coordinator` (`coordinator_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `emailtutor`
+--
+ALTER TABLE `emailtutor`
+  ADD CONSTRAINT `fk_emailtutor_tutor1` FOREIGN KEY (`emailtutor_tutor_id`) REFERENCES `tutor` (`tutor_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `phonecoordinator`
+--
+ALTER TABLE `phonecoordinator`
+  ADD CONSTRAINT `fk_phonecoordinator_coordinator1` FOREIGN KEY (`phonecoordinator_coordinator_id`) REFERENCES `coordinator` (`coordinator_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `phonetutor`
+--
+ALTER TABLE `phonetutor`
+  ADD CONSTRAINT `fk_phonetutor_tutor1` FOREIGN KEY (`phonetutor_tutor_id`) REFERENCES `tutor` (`tutor_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `tutor`
+--
+ALTER TABLE `tutor`
+  ADD CONSTRAINT `fk_tutor_user1` FOREIGN KEY (`tutor_user_id`) REFERENCES `user` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Constraints for table `workshopsemester`
+--
+ALTER TABLE `workshopsemester`
+  ADD CONSTRAINT `fk_workshopsemester_semester1` FOREIGN KEY (`workshopsemester_semester_id`) REFERENCES `semester` (`semester_id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_workshopsemester_workshop1` FOREIGN KEY (`workshopsemester_workshop_id`) REFERENCES `workshop` (`workshop_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
