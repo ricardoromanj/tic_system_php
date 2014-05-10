@@ -67,7 +67,7 @@ function deactivate_user($con, $user_id) {
 
 	$alerts_local = array();
 
-	$deactivate_user_query = "UPDATE user SET user_active='0'";
+	$deactivate_user_query = "UPDATE user SET user_active='0' WHERE user_id='".$user_id."'";
 
 	if (!@mysqli_query($con, $deactivate_user_query)) {
 		$alerts_local[] = array(
@@ -75,15 +75,6 @@ function deactivate_user($con, $user_id) {
 			"subject" => "¡Error!",
 			"message" => "No se pudo desactivar al usuario."
 		);
-	} 	
-
-	if (empty($alerts_local)) {
-		$alerts_local[] = array(
-			"status" => "info",
-			"subject" => "¡Enhorabuena!",
-			"message" => "Se ha desactivado el usuario."
-		);
-		// Send email with new password to the user using admin account
 	}
 
 	return (empty($alerts_local) ? null : $alerts_local);
@@ -94,7 +85,7 @@ function restore_user_password($con, $user_id, $user_new_password) {
 
 	$alerts_local = array();
 
-	$restore_user_query = "UPDATE user SET user_username='".$user_new_password."', user_lastlogin='".null."', user_active='1' WHERE user_id='".$user_id."'";
+	$restore_user_query = "UPDATE user SET user_password='".SHA1($user_new_password)."', user_lastlogin='".null."', user_active='1' WHERE user_id='".$user_id."'";
 
 	if (!@mysqli_query($con, $restore_user_query)) {
 		$alerts_local[] = array(

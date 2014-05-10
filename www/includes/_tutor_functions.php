@@ -39,6 +39,33 @@ function add_tutor($con, $new_tutor_name, $new_tutor_second_name, $new_tutor_las
 }
 
 // Edit tutor information
+function edit_tutor($con, $tutor_id, $data_attr) {
+
+	$alerts_local = array();
+
+
+	$edit_tutor_query = "UPDATE tutor SET ";
+
+	foreach ($data_attr as $key => $value) {
+		$edit_tutor_query .= $key."='".$value."', ";	
+	}
+
+	$edit_tutor_query = substr($edit_tutor_query, 0, -2);
+
+	$edit_tutor_query .=  " WHERE tutor_id='".$tutor_id."'";	
+
+	//$edit_tutor_query = "UPDATE tutor SET tutor_name='".$new_tutor_name."', tutor_second_name='".$new_tutor_second_name."', tutor_lastname='".$new_tutor_lastname."', tutor_second_lastname='".$new_tutor_second_lastname."', tutor_gender='".$new_tutor_gender."', tutor_role='".$new_tutor_role."', tutor_notes='".$new_tutor_notes."', tutor_user_id='".$new_tutor_user_id."' WHERE tutor_id='".$tutor_id."'";
+
+	if (!@mysqli_query($con, $edit_tutor_query)) {
+		$alerts[] = array(
+			"status" => "danger",
+			"subject" => "¡Error!",
+			"message" => "No se pudo agregar tutor." . $new_tutor_query.@mysqli_error($con)
+		);
+	}
+
+	return (empty($alerts_local) ? null : $alerts_local);
+}
 
 // Delete tutor
 function delete_tutor($con, $tutor_id) {
@@ -99,6 +126,22 @@ function add_emailtutor($con, $email_address, $email_type, $tutor_id) {
 }
 
 // Edit tutor email
+function edit_emailtutor($con, $emailtutor_id, $email_number, $email_type) {
+
+	$alerts_local = array();
+
+	$edit_emailtutor_query = "UPDATE emailtutor SET emailtutor_number='".$email_number."', emailtutor_type='".$email_type."' WHERE emailtutor_id='".$emailtutor_id."'";
+
+	if (!@mysqli_query($con, $edit_emailtutor_query)) {
+		$alerts_local[] = array(
+			"status" => "danger",
+			"subject" => "¡Error!",
+			"message" => "No se pudo modificar correo electrónico ".$email
+		);
+	}
+
+	return (empty($alerts_local) ? null : $alerts_local);
+}
 
 // Delete tutor email
 function delete_emailtutor($con, $emailtutor_id) {
@@ -141,6 +184,22 @@ function add_phonetutor($con, $phone_number, $phone_type, $tutor_id) {
 }
 
 // Edit tutor phone
+function edit_phonetutor($con, $phonetutor_id, $phone_number, $phone_type) {
+
+	$alerts_local = array();
+
+	$edit_phonetutor_query = "UPDATE phonetutor SET phonetutor_number='".$phone_number."', phonetutor_type='".$phone_type."' WHERE phonetutor_id='".$phonetutor_id."'";
+
+	if (!@mysqli_query($con, $edit_phonetutor_query)) {
+		$alerts_local[] = array(
+			"status" => "danger",
+			"subject" => "¡Error!",
+			"message" => "No se pudo modificar teléfono ".$phone
+		);
+	}
+
+	return (empty($alerts_local) ? null : $alerts_local);
+}
 
 // Delete tutor phone
 function delete_phonetutor($con, $phonetutor_id) {

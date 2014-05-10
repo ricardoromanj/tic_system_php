@@ -43,6 +43,7 @@
 				<option value="grandfathermother">Abuelo(a)</option>
 				<option value="uncleaunt">Tío(a)</option>
 				<option value="neighbor">Vecino(a)</option>
+				<option value="other">Otro(a)</option>
 			</select>
 		</div>
 	</div>

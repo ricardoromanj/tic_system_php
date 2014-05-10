@@ -111,11 +111,13 @@ if (isset($_POST['tutor_new'])) {
 
 		foreach ($phones as $key => $phone) {
 
-			$results_alerts = add_phonetutor($con, $phone, $phones_types[$key], $new_tutor_index);
+			if (!empty($phone)) {
+				$results_alerts = add_phonetutor($con, $phone, $phones_types[$key], $new_tutor_index);
 
-			if (!empty($results_alerts)) {
-				foreach ($results_alerts as $ra) {
-					$alerts[] = $ra;	
+				if (!empty($results_alerts)) {
+					foreach ($results_alerts as $ra) {
+						$alerts[] = $ra;	
+					}
 				}
 			}
 
@@ -126,14 +128,15 @@ if (isset($_POST['tutor_new'])) {
 		
 		foreach ($emails as $key => $email) {
 			
-			$results_alerts = add_emailtutor($con, $email, $emails_types[$key], $new_tutor_index);
+			if (!empty($email)) {
+				$results_alerts = add_emailtutor($con, $email, $emails_types[$key], $new_tutor_index);
 
-			if (!empty($results_alerts)) {
-				foreach ($results_alerts as $ra) {
-					$alerts[] = $ra;	
+				if (!empty($results_alerts)) {
+					foreach ($results_alerts as $ra) {
+						$alerts[] = $ra;	
+					}
 				}
 			}
-			
 		}
 
 	}
