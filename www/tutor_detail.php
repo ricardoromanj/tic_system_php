@@ -73,7 +73,7 @@ if (isset($_POST['tutor_edit'])) {
 		$alerts[] = array(
 			"status" => "success",
 			"subject" => "¡Enhorabuena!",
-			"message" => "Se ha agregado editado la información del tutor"
+			"message" => "Se ha editado la información del tutor"
 		);
 	}
 
@@ -87,6 +87,25 @@ if (isset($_POST['tutor_edit'])) {
 }
 
 if (isset($_POST['phonetutor_add'])) {
+
+	$phonetutor_number = $_POST['phonetutor_new_phone'];
+	$phonetutor_type = $_POST['phonetutor_new_type'];
+	$phonetutor_tutor_id = $_POST['tutor_id'];
+
+	$results_alerts = add_phonetutor($con, $phonetutor_number, $phonetutor_type, $phonetutor_tutor_id);
+	if (!empty($results_alerts)) {
+		foreach ($results_alerts as $ra) {
+			$alerts[] = $ra;	
+		}	
+	}
+
+	if (empty($alerts)) {
+		$alerts[] = array(
+			"status" => "success",
+			"subject" => "¡Enhorabuena!",
+			"message" => "Se ha agregado un teléfono de contacto del tutor."
+		);
+	}
 
 }
 
@@ -133,6 +152,25 @@ if (isset($_POST['phonetutor_delete'])) {
 }
 
 if (isset($_POST['emailtutor_add'])) {
+
+	$emailtutor_address = $_POST['emailtutor_new_address'];
+	$emailtutor_type = $_POST['emailtutor_new_type'];
+	$emailtutor_tutor_id = $_POST['tutor_id'];
+
+	$results_alerts = add_emailtutor($con, $emailtutor_address, $emailtutor_type, $emailtutor_tutor_id);
+	if (!empty($results_alerts)) {
+		foreach ($results_alerts as $ra) {
+			$alerts[] = $ra;	
+		}	
+	}
+
+	if (empty($alerts)) {
+		$alerts[] = array(
+			"status" => "success",
+			"subject" => "¡Enhorabuena!",
+			"message" => "Se ha agregado un correo electrónico de contacto del tutor."
+		);
+	}
 
 }
 
@@ -230,6 +268,13 @@ if (isset($_GET['deactivate_user'])) {
 		);
 	}
 
+	// Tutor in detail
+	$tutor_id = $_POST['tutor_id'];
+	$query = "SELECT * FROM tutor WHERE tutor_id='".$tutor_id."'";
+	// Get tutor from DB
+	$query_result = mysqli_query($con, $query);
+	$tutor = mysqli_fetch_assoc($query_result);
+
 }
 
 if (isset($_GET['create_user'])) {
@@ -268,6 +313,13 @@ if (isset($_GET['create_user'])) {
 	// And assign it to the user
 	$new_user_index = mysqli_insert_id($con);
 	edit_tutor($con, $tutor_id, array("tutor_user_id" => $new_user_index));
+
+	// Tutor in detail
+	$tutor_id = $_POST['tutor_id'];
+	$query = "SELECT * FROM tutor WHERE tutor_id='".$tutor_id."'";
+	// Get tutor from DB
+	$query_result = mysqli_query($con, $query);
+	$tutor = mysqli_fetch_assoc($query_result);
 
 }
 
@@ -327,7 +379,7 @@ if(isset($_POST['edit_tutor_picture'])) {
 	}
 
 	// Tutor in detail
-	$tutor_id = $_GET['tutor_id'];
+	$tutor_id = $_POST['tutor_id'];
 	$query = "SELECT * FROM tutor WHERE tutor_id='".$tutor_id."'";
 	// Get tutor from DB
 	$query_result = mysqli_query($con, $query);
@@ -383,7 +435,7 @@ include 'includes/_menu.php';
 						<?
 					} else {
 						?>
-							<a href="#" class="btn btn-info btn-block btn-xs">Crear usuario</a>
+							<a href="#tutor_confirm_create_user_modal" class="btn btn-info btn-block btn-xs" data-toggle="modal">Crear usuario</a>
 						<?
 					}
 
@@ -463,6 +515,25 @@ include 'includes/_menu.php';
 					    </div><? // Close modal content ?>
 					  </div> <? // Close modal dialog ?>
 					</div> <? // Close modal ?>
+					<? // Create user ?>
+					<div class="modal fade" id="tutor_confirm_create_user_modal" tabindex="-1" role="dialog" aria-labelledby="tutor_edit_form_modal_label" aria-hidden="true">
+					  <div class="modal-dialog">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+					        <h3 class="modal-title text-info" id="tutor_edit_form_modal_label">Creación de usuario</h3>
+					      </div> <? // Close modal header ?>
+					      <div class="modal-body">
+					      	<br>
+					        <p>¿Realmente desea crear un usuario para el tutor <?= $tutor['tutor_lastname'].", ".$tutor['tutor_name']; ?>?</p>
+					      </div> <? // Close modal body ?>
+					      <div class="modal-footer">
+					      	<a href="<? $_PHP_SELF ?>?create_user=true&tutor_id=<?= $tutor['tutor_id']; ?>" class="pull-left btn btn-primary">Crear usuario</a>
+					        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+					      </div> <? // Close modal footer ?>
+					    </div><? // Close modal content ?>
+					  </div> <? // Close modal dialog ?>
+					</div> <? // Close modal ?>
 					<? // Reset user password ?>
 					<div class="modal fade" id="tutor_confirm_reset_password_modal" tabindex="-1" role="dialog" aria-labelledby="tutor_edit_form_modal_label" aria-hidden="true">
 					  <div class="modal-dialog">
@@ -502,12 +573,48 @@ include 'includes/_menu.php';
 					  </div> <? // Close modal dialog ?>
 					</div> <? // Close modal ?>
 				</div><? // Close column ?>
+				<? // Add phone modal ?>
+				<div class="modal fade" id="phonetutor_add_form_modal" tabindex="-1" role="dialog" aria-labelledby="tutor_edit_form_modal_label" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				        <h3 class="modal-title" id="tutor_edit_form_modal_label">Agregar teléfono para <?= $tutor['tutor_lastname'].", ".$tutor['tutor_name']; ?></h3>
+				      </div> <? // Close modal header ?>
+				      <div class="modal-body">
+				      	<br>
+				        <? include 'includes/_tutor_phonetutor_add_form.php'; ?>
+				      </div> <? // Close modal body ?>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				      </div> <? // Close modal footer ?>
+				    </div><? // Close modal content ?>
+				  </div> <? // Close modal dialog ?>
+				</div> <? // Close modal ?>
+				<? // Add email modal ?>
+				<div class="modal fade" id="emailtutor_add_form_modal" tabindex="-1" role="dialog" aria-labelledby="tutor_edit_form_modal_label" aria-hidden="true">
+				  <div class="modal-dialog">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				        <h3 class="modal-title" id="tutor_edit_form_modal_label">Agregar correo electrónico para <?= $tutor['tutor_lastname'].", ".$tutor['tutor_name']; ?></h3>
+				      </div> <? // Close modal header ?>
+				      <div class="modal-body">
+				      	<br>
+				        <? include 'includes/_tutor_emailtutor_add_form.php'; ?>
+				      </div> <? // Close modal body ?>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+				      </div> <? // Close modal footer ?>
+				    </div><? // Close modal content ?>
+				  </div> <? // Close modal dialog ?>
+				</div> <? // Close modal ?>
 				<div class="col-md-5">
 					<table class="table table-striped table-hover table-condensed">
 						<thead>
 							<th>Número</th>
 							<th>Tipo</th>
-							<th style="width: 40px;"><a href="#" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-asterisk"></span> Nuevo</a></th>
+							<th style="width: 40px;"><a href="#phonetutor_add_form_modal" class="btn btn-primary btn-xs" data-toggle="modal"><span class="glyphicon glyphicon-asterisk"></span> Nuevo</a></th>
 						</thead>
 						<tbody>
 							<?
@@ -522,7 +629,7 @@ include 'includes/_menu.php';
 						<thead>
 							<th>Correo</th>
 							<th>Tipo</th>
-							<th style="width: 40px;"><a href="#" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-asterisk"></span> Nuevo</a></th>
+							<th style="width: 40px;"><a href="#emailtutor_add_form_modal" class="btn btn-primary btn-xs" data-toggle="modal"><span class="glyphicon glyphicon-asterisk"></span> Nuevo</a></th>
 						</thead>
 						<tbody>
 							<?

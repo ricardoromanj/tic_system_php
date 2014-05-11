@@ -116,7 +116,7 @@ function add_emailtutor($con, $email_address, $email_type, $tutor_id) {
 		$alerts_local[] = array(
 			"status" => "danger",
 			"subject" => "¡Error!",
-			"message" => "No se pudo agregar correo ".$email
+			"message" => "No se pudo agregar correo ".$email_address
 		);
 	}
 
@@ -124,11 +124,11 @@ function add_emailtutor($con, $email_address, $email_type, $tutor_id) {
 }
 
 // Edit tutor email
-function edit_emailtutor($con, $emailtutor_id, $email_number, $email_type) {
+function edit_emailtutor($con, $emailtutor_id, $email_address, $email_type) {
 
 	$alerts_local = array();
 
-	$edit_emailtutor_query = "UPDATE emailtutor SET emailtutor_number='".$email_number."', emailtutor_type='".$email_type."' WHERE emailtutor_id='".$emailtutor_id."'";
+	$edit_emailtutor_query = "UPDATE emailtutor SET emailtutor_address='".$email_address."', emailtutor_type='".$email_type."' WHERE emailtutor_id='".$emailtutor_id."'";
 
 	if (!@mysqli_query($con, $edit_emailtutor_query)) {
 		$alerts_local[] = array(
