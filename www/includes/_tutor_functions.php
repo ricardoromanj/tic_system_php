@@ -54,8 +54,6 @@ function edit_tutor($con, $tutor_id, $data_attr) {
 
 	$edit_tutor_query .=  " WHERE tutor_id='".$tutor_id."'";	
 
-	//$edit_tutor_query = "UPDATE tutor SET tutor_name='".$new_tutor_name."', tutor_second_name='".$new_tutor_second_name."', tutor_lastname='".$new_tutor_lastname."', tutor_second_lastname='".$new_tutor_second_lastname."', tutor_gender='".$new_tutor_gender."', tutor_role='".$new_tutor_role."', tutor_notes='".$new_tutor_notes."', tutor_user_id='".$new_tutor_user_id."' WHERE tutor_id='".$tutor_id."'";
-
 	if (!@mysqli_query($con, $edit_tutor_query)) {
 		$alerts[] = array(
 			"status" => "danger",

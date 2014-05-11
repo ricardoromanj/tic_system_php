@@ -86,6 +86,10 @@ if (isset($_POST['tutor_edit'])) {
 
 }
 
+if (isset($_POST['phonetutor_add'])) {
+
+}
+
 if (isset($_POST['phonetutor_edit'])) {
 
 	$phonetutor_id = $_POST['phonetutor_id'];
@@ -126,6 +130,10 @@ if (isset($_POST['phonetutor_delete'])) {
 			"message" => "Se ha borrado el teléfono de contacto."
 		);
 	}
+}
+
+if (isset($_POST['emailtutor_add'])) {
+
 }
 
 if (isset($_POST['emailtutor_edit'])) {
@@ -265,7 +273,65 @@ if (isset($_GET['create_user'])) {
 
 if(isset($_POST['edit_tutor_picture'])) {
 
-	echo "<pre>"; print_r($_FILES['tutor_picture_new']); echo "</pre>";
+	$tutor_id = $_GET['tutor_id'];
+
+	if ($_FILES["tutor_picture_new"]["error"] > 0) {
+		echo "Error: " . $_FILES["tutor_picture_new"]["error"] . "<br>";
+		$alerts[] = array(
+			"status" => "danger",
+			"subject" => "¡Error!",
+			"message" => "Por favor seleccione un archivo."
+		);
+
+	} else {
+		$allowed_exts = array("gif", "jpeg", "jpg", "png");
+		$temp = explode(".", $_FILES["tutor_picture_new"]["name"]);
+		$extension = end($temp);
+
+		if ((($_FILES["file"]["type"] == "image/gif")
+		|| ($_FILES["tutor_picture_new"]["type"] == "image/jpeg")
+		|| ($_FILES["tutor_picture_new"]["type"] == "image/jpg")
+		|| ($_FILES["tutor_picture_new"]["type"] == "image/pjpeg")
+		|| ($_FILES["tutor_picture_new"]["type"] == "image/x-png")
+		|| ($_FILES["tutor_picture_new"]["type"] == "image/png"))
+		&& ($_FILES["tutor_picture_new"]["size"] < 200000)
+		&& in_array($extension, $allowed_exts)) {
+	  		if ($_FILES["file"]["error"] > 0) {
+	    		//echo "Error: " . $_FILES["file"]["error"] . "<br>";
+	    		$alerts[] = array(
+					"status" => "danger",
+					"subject" => "¡Error!",
+					"message" => "No se pudo guardar el archivo, favor de intentarlo de nuevo o contactar al administrador"
+				);
+	  		} else {
+	    		move_uploaded_file($_FILES['tutor_picture_new']['tmp_name'], "../file_uploads/tutor_pictures/".$tutor_id.".".$extension);
+	    		// Set the new picture to appear on the user's profile
+				edit_tutor($con, $tutor_id, array("tutor_picture" => "../file_uploads/tutor_pictures/".$tutor_id.".".$extension));
+	  		}	
+		} else {
+
+	  		$alerts[] = array(
+				"status" => "danger",
+				"subject" => "¡Error!",
+				"message" => "El tipo de archivo es inválido: ".$extension
+			);
+		}
+	}
+
+	if (empty($alerts)) {
+		$alerts[] = array(
+			"status" => "success",
+			"subject" => "¡Enhorabuena!",
+			"message" => "Se ha cambiado la foto del usuario."
+		);
+	}
+
+	// Tutor in detail
+	$tutor_id = $_GET['tutor_id'];
+	$query = "SELECT * FROM tutor WHERE tutor_id='".$tutor_id."'";
+	// Get tutor from DB
+	$query_result = mysqli_query($con, $query);
+	$tutor = mysqli_fetch_assoc($query_result);
 
 }
 
@@ -302,7 +368,7 @@ include 'includes/_menu.php';
 	<div class="row">
 		<div class="col-md-2 text-center">
 			<div class="row">
-				<img class="img-circle" alt="" src="assets/img/TIC_LOGO.jpg" style="width: 140px; height: 140px;">
+				<img class="img-circle" alt="" src="<?= (empty($tutor['tutor_picture']) ? "assets/img/TIC_LOGO.jpg" : $tutor['tutor_picture']); ?>" style="width: 140px; height: 140px;">
 			</div>
 			<div class="row">
 				<br>
