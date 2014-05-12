@@ -1,10 +1,10 @@
 <?php
 
 /*
- * TUTORS.PHP
+ * COORDINATORS.PHP
  * 
- * DESC: THIS IS THE WEBAPP TUTORS PAGE
- * (ONLY AVAILABLE TO COORDINATORS AND ADMIN)
+ * DESC: THIS IS THE WEBAPP COORDINATORS PAGE
+ * (ONLY AVAILABLE TO  ADMIN)
  * AUTHOR: RICARDO ROMAN (C) 2014
  * 
  * CHANGE LOG
@@ -19,7 +19,7 @@ if (!isset($_COOKIE['user_id'])) {
 } else if (!($_COOKIE['user_type'] == COORDINATOR_STRING || $_COOKIE['user_type'] == ADMINISTRATOR_STRING)) {
 	//redirect_user('not_found.php');
 }
-// If the user is logged in, display the tutors page
+// If the user is logged in, display the coordinators page
 
 // Require connection
 require '../connection.php';
@@ -27,8 +27,10 @@ require '../connection.php';
 // Utilities
 require 'includes/semester_functions.php';
 
-// Include helper functions
-include 'includes/helpers.php';
+
+
+// Include coordinator specific functions
+require 'includes/_coordinator_functions.php';
 
 // Prepare alert array in case of alerts
 $alerts = array();
@@ -36,140 +38,173 @@ $alerts = array();
 /*
 * Form functions
 */ 
-// Add tutor
-if (isset($_POST['tutor_new'])) {
-	foreach ($_POST['tutor_new_email_address'] as $email) {
-		?><pre><? echo $email; ?></pre><?
-	}
+// Add coordinator
+if (isset($_POST['coordinator_new'])) {
 
 	// Prepare data for insert query
-	$new_tutor_index = get_max_index_of_table($con, "tutor")+1;
-	$new_tutor_name = $_POST['tutor_new_name'];
-	$new_tutor_second_name = $_POST['tutor_new_second_name'];
-	$new_tutor_lastname = $_POST['tutor_new_lastname'];
-	$new_tutor_second_lastname = $_POST['tutor_new_second_lastname'];
-	$new_tutor_gender = $_POST['tutor_new_gender'];
-	$new_tutor_role = $_POST['tutor_new_role'];
-	$new_tutor_notes = $_POST['tutor_new_notes'];
-	$new_tutor_date_added = date("Y-m-d H:i:s", time());
+	$new_coordinator_name = $_POST['coordinator_new_name'];
+	$new_coordinator_second_name = $_POST['coordinator_new_second_name'];
+	$new_coordinator_lastname = $_POST['coordinator_new_lastname'];
+	$new_coordinator_second_lastname = $_POST['coordinator_new_second_lastname'];
+	$new_coordinator_gender = $_POST['coordinator_new_gender'];
+	$new_coordinator_notes = $_POST['coordinator_new_notes'];
+	$new_coordinator_date_added = date("Y-m-d H:i:s", time());
 
-	// If new_tutor_createuser, then create a new user for the tutor
-	$new_tutor_createuser = isset($_POST['tutor_new_createuser']) && $_POST['tutor_new_createuser']  ? true : false;
-	if ($new_tutor_createuser) {
+	// If new_coordinator_createuser, then create a new user for the coordinator
+	$new_coordinator_createuser = isset($_POST['coordinator_new_createuser']) && $_POST['coordinator_new_createuser']  ? true : false;
 
-		$user_new_index = get_max_index_of_table($con, "user")+1;
-		$user_new_username = '';
-		
-		do {
-			$user_new_username = strtolower(substr($new_tutor_name, 0, 1).($new_tutor_second_name!='' ? substr($new_tutor_second_name, 0, 1) : '').substr($new_tutor_lastname, 0, 1).($new_tutor_second_lastname!='' ? substr($new_tutor_second_lastname, 0, 1) : '')).generateRandomNumberString(4);
+	if ($new_coordinator_createuser) {
 
-			$query_username_check = "SELECT * FROM user WHERE user_username='".$user_new_username."'";
-
-			$r = @mysqli_query($con, $query_username_check);
-		} while (mysqli_num_rows($r)!=0);
+		$user_new_username = generate_username($con, $new_coordinator_name, $new_coordinator_second_name, $new_coordinator_lastname, $new_coordinator_second_lastname);
 
 		$user_new_password = generateRandomString(8);
-		$user_new_type = 'tutor';
+		$user_new_type = 'coordinator';
 		$user_new_active = 1;
 		$user_new_created_at = date("Y-m-d H:i:s", time());
 		$user_new_lastlogin = '';
 
-		$new_user_query = "INSERT INTO user (user_id, user_username, user_password, user_type, user_active, user_created_at, user_lastlogin) VALUES ('".$user_new_index."', '".$user_new_username."', '".SHA1($user_new_password)."', '".$user_new_type."', '".$user_new_active."', '".$user_new_created_at."', '".$user_new_lastlogin."')";
+		$results_alerts = add_user($con, $user_new_username, $user_new_password, $user_new_type, $user_new_active, $user_new_created_at, $user_lastlogin);
+		
+		if (!empty($results_alerts)) {
+			foreach ($results_alerts as $ra) {
+				$alerts[] = $ra;	
+			}	
+		}
 
-		if (!@mysqli_query($con, $new_user_query)) {
-			$alerts[] = array(
-				"status" => "danger",
-				"subject" => "¡Error!",
-				"message" => "No se pudo agregar usuario nuevo." . @mysqli_error($con)
-			);
-		} 
 		if (empty($alerts)) {
 			$alerts[] = array(
 				"status" => "info",
 				"subject" => "¡Enhorabuena!",
-				"message" => "Se ha agregado nuevo usuario con usuario: '".$user_new_username."'' y contraseña: '".$user_new_password."'"
+				"message" => "Se ha agregado nuevo coodrdinador con usuario: '".$user_new_username."'' y contraseña: '".$user_new_password."'"
 			);
+			// Send email with username and password to the new user using admin account
 		}
 	}
 
-	$new_tutor_user_id = ($new_tutor_createuser ? get_max_index_of_table($con, "user") : "null");
+	$new_coordinator_user_id = ($new_coordinator_createuser ? get_max_index_of_table($con, "user") : "null");
 
-	// Prepare the query with the new data
-	$new_tutor_query = "INSERT INTO tutor (tutor_id, tutor_name, tutor_second_name, tutor_lastname, tutor_second_lastname, tutor_gender, tutor_role, tutor_notes, tutor_picture, tutor_date_added, tutor_user_id) VALUES (
-		'".$new_tutor_index."',
-		'".$new_tutor_name."',
-		'".$new_tutor_second_name."',
-		'".$new_tutor_lastname."',
-		'".$new_tutor_second_lastname."',
-		'".$new_tutor_gender."',
-		'".$new_tutor_role."',
-		'".$new_tutor_notes."',
-		'',
-		'".$new_tutor_date_added."',
-		".$new_tutor_user_id.")";
+	// With data ready, add coordinator
+	$continue = true;
 
-	if (!@mysqli_query($con, $new_tutor_query)) {
-		$alerts[] = array(
-			"status" => "danger",
-			"subject" => "¡Error!",
-			"message" => "No se pudo agregar tutor." . $new_tutor_query.@mysqli_error($con)
-		);
-	} else {
+	$results_alerts = add_coordinator($con, $new_coordinator_name, $new_coordinator_second_name, $new_coordinator_lastname,  $new_coordinator_second_lastname, $new_coordinator_gender, $new_coordinator_role, $new_coordinator_notes, $new_coordinator_date_added, $new_coordinator_user_id);
+
+	$new_coordinator_index = mysqli_insert_id($con);
+
+	if (!empty($results_alerts)) {
+		foreach ($results_alerts as $ra) {
+			$alerts[] = $ra;	
+		}
+		$continue = false;
+	}
+
+	if($continue) {
 		$alerts[] = array(
 			"status" => "success",
 			"subject" => "¡Enhorabuena!",
-			"message" => "Se ha agregado a un nuevo tutor."
+			"message" => "Se ha agregado a un nuevo coordinador."
 		);
 
 		// If successful, then insert the corresponding phone and email
-		foreach ($_POST['tutor_new_phone_number'] as $phone) {
-			?><pre><? echo $phone; ?></pre><?
+		$phones = $_POST['coordinator_new_phone_number'];
+		$phones_types = $_POST['coordinator_new_phone_type'];
+
+		foreach ($phones as $key => $phone) {
+
+			if (!empty($phone)) {
+				$results_alerts = add_phonecoordinator($con, $phone, $phones_types[$key], $new_coordinator_index);
+
+				if (!empty($results_alerts)) {
+					foreach ($results_alerts as $ra) {
+						$alerts[] = $ra;	
+					}
+				}
+			}
+
 		}
-		foreach ($_POST['tutor_new_email_address'] as $email) {
-			?><pre><? echo $email; ?></pre><?
+
+		$emails = $_POST['coordinator_new_email_address'];
+		$emails_types = $_POST['coordinator_new_email_type'];
+		
+		foreach ($emails as $key => $email) {
+			
+			if (!empty($email)) {
+				$results_alerts = add_emailcoordinator($con, $email, $emails_types[$key], $new_coordinator_index);
+
+				if (!empty($results_alerts)) {
+					foreach ($results_alerts as $ra) {
+						$alerts[] = $ra;	
+					}
+				}
+			}
 		}
 
 	}
 
 }
 
-// Edit tutor
-if (isset($_POST['tutor_edit'])) {
+// Edit coordinator -- This function will be in the detail page.
 
-}
+// Delete coordinator
+if (isset($_POST['coordinator_delete'])) {
 
-// Delete tutor
-if (isset($_POST['tutor_delete'])) {
-	
-}
-if( isset($_REQUEST['action']) == 'deleteTutor' )
-{
-	$delete_query = "DELETE FROM tutor WHERE tutor_id = '".$_REQUEST['rowid']."' "; 
-	if(!@mysqli_query($con, $delete_query)){
-		$response = @mysqli_error($con) ." ". $delete_query; 
+	/*
+	 * This will delete the coordinator in the following sequence:
+	 *   First delete contact information (emails and phones)
+	 *   Delete the coordinator
+	 *   Delete associated users
+	 */
+
+	$coordinator_id = $_POST['coordinator_id'];
+
+	$coordinator_row = select_coordinator_with_id($con, $coordinator_id);
+
+	if (!$coordinator_row) {
+		$alerts[] = array(
+			"status" => "danger",
+			"subject" => "¡Error!",
+			"message" => "Coordinador no encontrado."
+		);
+	} else {
+
+		// Delete contact information
+		$results_alerts = delete_coordinator_contact_information($con, $coordinator_row['coordinator_id']);
+		if (!empty($results_alerts)) {
+			foreach ($results_alerts as $ra) {
+				$alerts[] = $ra;	
+			}	
+		}
+
+		// Delete the coordinator
+		$results_alerts = delete_coordinator($con, $coordinator_row['coordinator_id']);
+		if (!empty($results_alerts)) {
+			foreach ($results_alerts as $ra) {
+				$alerts[] = $ra;	
+			}	
+		}
+
+		// Delete associated users if any
+		$results_alerts = delete_user($con, $coordinator_row['coordinator_user_id']);
+		if (!empty($results_alerts)) {
+			foreach ($results_alerts as $ra) {
+				$alerts[] = $ra;	
+			}	
+		}
 	}
-	else{
-		$response = "tutor_deleted";
+
+	if (empty($alerts)) {
+		$alerts[] = array(
+			"status" => "success",
+			"subject" => "¡Enhorabuena!",
+			"message" => "Se ha eliminado al coordinador satisfactoriamente."
+		);
 	}
-	echo $response;
-	exit();
+
+
 }
-
-
-
-
-if(isset($_REQUEST['tutor_delete_success'])){
-	$alerts[] = array(
-		"status" => "success",
-		"subject" => "¡Enhorabuena!",
-		"message" => "Se ha borrado tutor."
-	);
-}
-
 
 // Start with header and title
-$page_title = 'Tutores';
-$page_active = 'tutors';
+$page_title = 'Coordinadores';
+$page_active = 'coordinators';
 include 'includes/_header.php';
 
 // Display the menu according to user type
@@ -184,13 +219,14 @@ include 'includes/_menu.php';
 			<? include 'includes/_sidebar.php'; ?>
 		</div>
 		<div class="tic-sidebar col-sm-10">
-			<h2>Administracion de tutores</h2>
-			<a class="btn btn-success btn-sm pull-right" href="#tutor_new_form_modal" data-toggle="modal">Agregar tutor nuevo</a>
+			<h2>Administracion de coordinatores</h2>
+			<a class="btn btn-success btn-sm pull-right" href="#coordinator_new_form_modal" data-toggle="modal">Agregar coordinator nuevo</a>
 			<br>
 			<br>
-			<div id="tutors_alerts_div">
+			<div id="coordinators_alerts_div">
 				<? if (isset($alerts) && !empty($alerts)) { ?>
 					<? foreach ($alerts as $alert) { ?>
+						<br>
 						<div class="alert alert-<? echo $alert['status']; ?>">
 							<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
 							<strong><? echo $alert['subject']; ?></strong> <? echo $alert['message']; ?>
@@ -199,16 +235,16 @@ include 'includes/_menu.php';
 				<? } ?>
 			</div>
 			<!-- Modal -->
-			<div class="modal fade" id="tutor_new_form_modal" tabindex="-1" role="dialog" aria-labelledby="tutor_new_form_modal_label" aria-hidden="true">
+			<div class="modal fade" id="coordinator_new_form_modal" tabindex="-1" role="dialog" aria-labelledby="coordinator_new_form_modal_label" aria-hidden="true">
 			  <div class="modal-dialog">
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-			        <h3 class="modal-title text-success" id="tutor_new_form_modal_label">Agregar tutor nuevo</h3>
+			        <h3 class="modal-title" id="coordinator_new_form_modal_label">Agregar coordinator nuevo</h3>
 			      </div> <!-- Close modal header -->
 			      <div class="modal-body">
 			      	<br>
-			        <? include 'includes/_tutor_new_form.php'; ?>
+			        <? include 'includes/_coordinator_new_form.php'; ?>
 			      </div> <!-- Close modal body -->
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
@@ -217,23 +253,22 @@ include 'includes/_menu.php';
 			  </div> <!-- Close modal dialog -->
 			</div> <!-- Close modal -->
 			<br>
-			<div id="tutor_table_div">
+			<div id="coordinator_table_div">
 				<table class="table table-striped table-hover table-condensed">
 					<thead>
 						<th>ID</th>
 						<th width="35%">Nombre</th>
 						<th>Género</th>
-						<th>Rol</th>
-						<th>Fecha de inscripción</th>
+						<th>Fecha de ingreso</th>
 						<th>¿Activo?</th>
 						<th width="5%" class="text-danger">BORRAR</th>
 					</thead>
 					<tbody>
 						<?
-							$query = "SELECT * FROM tutor ORDER BY tutor_lastname";
-							$tutor_result = mysqli_query($con, $query);
-							while($tutor_row = mysqli_fetch_array($tutor_result)) {
-								include 'includes/_tutor_table_row.php';
+							$query = "SELECT * FROM coordinator ORDER BY coordinator_lastname";
+							$coordinator_result = mysqli_query($con, $query);
+							while($coordinator_row = mysqli_fetch_array($coordinator_result)) {
+								include 'includes/_coordinator_table_row.php';
 							}
 						?>
 					</tbody>
@@ -249,27 +284,3 @@ mysqli_close($con);
 // Footer
 include 'includes/_footer.php';
 ?>
-
-
-
-<script type='text/javascript'>
-
-function deleteTutor( tutorID )
-{
-	$.ajax({
-		urL: 'tutors.php',
-		method: 'post',
-		data:
-		{
-			action: 'deleteTutor',
-			rowid: tutorID
-		},
-		success: function(data)
-		{
-			$('#tutor_confirm_delete_'+tutorID).modal('hide'); //hide confirm dialog
-			window.location.href = "tutors.php?tutor_delete_success";
-		}
-	});
-}
-
-</script>

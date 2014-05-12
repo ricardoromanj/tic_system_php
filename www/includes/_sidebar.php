@@ -1,6 +1,6 @@
 <ul class="nav nav-pills affix col-sm-1 nav-stacked" role="navigation" data-spy="affix" data-offset-top="5">
 	<li <? echo $page_active=='announcements' ? 'class="active"' : ''; ?> ><a href='announcements.php'>Avisos</a></li>
-	<li <? echo $page_active=='children_enrolled' ? 'class="active"' : ''; ?> ><a href='#'>Niños inscritos</a></li>
+	<li <? echo $page_active=='children_enrolled' ? 'class="active"' : ''; ?> ><a href='children.php'>Niños inscritos</a></li>
 	<?  
 		// Menu for coordinator
 		if (($_COOKIE['user_type']==COORDINATOR_STRING) || ($_COOKIE['user_type']==ADMINISTRATOR_STRING)) {
