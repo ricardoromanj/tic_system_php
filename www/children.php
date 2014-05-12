@@ -11,14 +11,13 @@
  * 20140228 - RICARDO ROMAN - FIRST RELEASE
  * 
  */
+require 'includes/constants.php';
 
 // Check if user is logged in
 if (!isset($_COOKIE['user_id'])) {
 	require 'includes/sign_in_functions.php';
 	redirect_user('sign_in.php');
-} else if (!($_COOKIE['user_type'] == COORDINATOR_STRING || $_COOKIE['user_type'] == ADMINISTRATOR_STRING)) {
-	//redirect_user('not_found.php');
-}
+} 
 // If the user is logged in, display the children page
 
 // Require connection
@@ -30,6 +29,7 @@ require 'includes/semester_functions.php';
 
 
 // Include child specific functions
+require 'includes/_user_functions.php';
 require 'includes/_child_functions.php';
 
 // Prepare alert array in case of alerts
@@ -200,15 +200,24 @@ include 'includes/_menu.php';
 						<th width="35%">Nombre</th>
 						<th>Género</th>
 						<th>Fecha de ingreso</th>
-						<th>¿Activo?</th>
+						<th>¿Inscrito?</th>
 						<th width="5%" class="text-danger">BORRAR</th>
 					</thead>
 					<tbody>
 						<?
-							$query = "SELECT * FROM child ORDER BY child_lastname";
-							$child_result = mysqli_query($con, $query);
-							while($child_row = mysqli_fetch_array($child_result)) {
-								include 'includes/_child_table_row.php';
+							if ($_COOKIE['user_type'] == TUTOR_STRING) {
+								$current_tutor = select_tutor_with_user_id($con, $_COOKIE['user_id']);
+								$query = "SELECT * FROM child, childtutor WHERE childtutor.childtutor_tutor_id ='".$current_tutor['tutor_id']."' AND childtutor.childtutor_child_id = child_id ORDER BY child_lastname";
+								$child_result = mysqli_query($con, $query);
+								while($child_row = mysqli_fetch_array($child_result)) {
+									include 'includes/_child_table_row.php';
+								}
+							} else {
+								$query = "SELECT * FROM child ORDER BY child_lastname";
+								$child_result = mysqli_query($con, $query);
+								while($child_row = mysqli_fetch_array($child_result)) {
+									include 'includes/_child_table_row.php';
+								}
 							}
 						?>
 					</tbody>

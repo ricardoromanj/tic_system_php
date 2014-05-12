@@ -45,9 +45,9 @@
 		?>
 	</td>
 	<td>
-		<a href="#coordinator_confirm_delete_<?=$coordinator_row['coordinator_id'];?>" class="btn btn-danger btn-xs" data-toggle="modal">BORRAR</a>
+		<a href="#coordinator_confirm_delete_<? echo $coordinator_row['coordinator_id'];?>" class="btn btn-danger btn-xs" data-toggle="modal">BORRAR</a>
 		<!-- Modal -->
-		<div class="modal fade" id="coordinator_confirm_delete_<?=$coordinator_row['coordinator_id'];?>" tabindex="-1" role="dialog" aria-labelledby="coordinator_new_form_modal_label" aria-hidden="true">
+		<div class="modal fade" id="coordinator_confirm_delete_<? echo $coordinator_row['coordinator_id'];?>" tabindex="-1" role="dialog" aria-labelledby="coordinator_new_form_modal_label" aria-hidden="true">
 		  <div class="modal-dialog">
 		    <div class="modal-content">
 		      <div class="modal-header">
@@ -55,7 +55,7 @@
 		        <h3 class="modal-title text-danger" id="coordinator_new_form_modal_label">¡Alerta!</h3>
 		      </div> <!-- Close modal header -->
 		      <div class="modal-body">
-		      	<p class="lead">¿Realmente desea borrar al coordinator <?= $coordinator_name_str; ?>?</p>
+		      	<p class="lead">¿Realmente desea borrar al coordinator <? echo $coordinator_name_str; ?>?</p>
 		      	<br>
 		      	<form class="form-inline" role="form" method="POST" action="<?php $_PHP_SELF ?>">
 		      		<input type="text" id="coordinator_delete" name="coordinator_delete" value="coordinator_delete" style="display: none;">

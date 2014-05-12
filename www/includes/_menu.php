@@ -36,7 +36,7 @@
 				<ul class='nav navbar-nav'>
 					<li <? echo $page_active=='index' ? 'class="active"' : ''; ?> ><a href='index.php'>Inicio</a></li>
 					<li <? echo ($page_active=='announcements' || $page_active=='children_enrolled' || $page_active=='tutors' || $page_active=='coordinators' || $page_active=="semester_administration") ? 'class="active"' : ''; ?> ><a href='announcements.php'>Curso</a></li>
-					<li><a href='#'>Ayuda y contacto</a></li>
+					<li <? echo $page_active=='contact' ? 'class="active"' : ''; ?> ><a href='contact.php'>Ayuda y contacto</a></li>
 				</ul>
 				<ul class='nav navbar-nav navbar-right'>
 					<li class='dropdown'>
@@ -52,7 +52,7 @@
 				</ul>
 			<?	} else { ?>
 				<ul class='nav navbar-nav navbar-right'>
-					<li <? echo $page_active=='contact' ? 'class="active"' : ''; ?> ><a href='#'>Ayuda y contacto</a></li>
+					<li <? echo $page_active=='contact' ? 'class="active"' : ''; ?> ><a href='contact.php'>Ayuda y contacto</a></li>
 				</ul>
 			<? } ?>
 		</div>

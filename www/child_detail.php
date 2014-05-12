@@ -12,6 +12,8 @@
  * 
  */
 
+require 'includes/constants.php';
+
 // Check if user is logged in
 if (!isset($_COOKIE['user_id'])) {
 	require 'includes/sign_in_functions.php';
@@ -215,7 +217,7 @@ if(isset($_POST['edit_child_picture'])) {
 }
 
 // Start with header and title
-$page_title = 'childes';
+$page_title = $child['child_lastname'].", ".$child['child_name'];
 $page_active = 'children';
 include 'includes/_header.php';
 

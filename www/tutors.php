@@ -12,13 +12,20 @@
  * 
  */
 
+require 'includes/constants.php';
+
 // Check if user is logged in
 if (!isset($_COOKIE['user_id'])) {
 	require 'includes/sign_in_functions.php';
 	redirect_user('sign_in.php');
-} else if (!($_COOKIE['user_type'] == COORDINATOR_STRING || $_COOKIE['user_type'] == ADMINISTRATOR_STRING)) {
-	//redirect_user('not_found.php');
+} 
+
+if (!($_COOKIE['user_type'] == COORDINATOR_STRING || $_COOKIE['user_type'] == ADMINISTRATOR_STRING)) {
+	require 'includes/sign_in_functions.php';
+	redirect_user('not_found.php');
 }
+
+
 // If the user is logged in, display the tutors page
 
 // Require connection

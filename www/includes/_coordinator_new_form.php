@@ -34,15 +34,6 @@
 		</div>
 	</div>
 	<div class="form-group">
-		<div class="col-sm-offset-3 col-sm-5">
-			<div class="checkbox">
-				<label>
-					<input type="checkbox" name="coordinator_new_createuser" id="coordinator_new_createuser" value="1">  Crear usuario de sistema TIC
-				</label>
-			</div>
-		</div>
-	</div>
-	<div class="form-group">
 		<label for="coordinator_new_notes" class="col-sm-3 control-label">Notas:</label>
 		<div class="col-sm-5">
 			<textarea class="form-control" id="coordinator_new_notes" name="coordinator_new_notes" style="resize: none;"></textarea>

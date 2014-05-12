@@ -27,7 +27,7 @@ function add_coordinator($con, $new_coordinator_name, $new_coordinator_second_na
 		".$new_coordinator_user_id.")";
 
 	if (!@mysqli_query($con, $new_coordinator_query)) {
-		$alerts[] = array(
+		$alerts_local[] = array(
 			"status" => "danger",
 			"subject" => "¡Error!",
 			"message" => "No se pudo agregar coordinador." . $new_coordinator_query.@mysqli_error($con)
@@ -70,12 +70,12 @@ function delete_coordinator($con, $coordinator_id) {
 	$alerts_local = array();
 
 	$delete_coordinator_query = "DELETE FROM coordinator WHERE coordinator_id = '".$coordinator_id."' "; 
-	
+
 	if(!@mysqli_query($con, $delete_coordinator_query)){
-		$alerts[] = array(
+		$alerts_local[] = array(
 			"status" => "danger",
 			"subject" => "¡Error!",
-			"message" => "No se pudo borrar al coordinador seleccionado."
+			"message" => "No se pudo borrar al coordinador seleccionado.".@mysqli_error($con)
 		);
 	}	
 

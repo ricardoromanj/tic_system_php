@@ -114,3 +114,33 @@ function delete_user($con, $user_id) {
 
 	return (empty($alerts_local) ? null : $alerts_local);
 }
+
+// Get the tutor with the user id
+function select_tutor_with_user_id($con, $user_id) {
+
+	$result = null;
+
+	$select_tutor_query = "SELECT * FROM tutor WHERE tutor_user_id='".$user_id."'";
+
+	$r = @mysqli_query($con, $select_tutor_query);
+
+	if (!@mysqli_num_rows($r)==1) {
+		$result = false;
+	} else {
+		$result = mysqli_fetch_array($r);
+	}
+
+	return $result;
+}
+
+// Select coordinator with user_id
+function select_coordinator_with_user_id($con, $coordinator_user_id) {
+
+
+	$select_coordinator_query = "SELECT * FROM coordinator WHERE coordinator_user_id='".$coordinator_user_id."'";
+
+	$sel_r = mysqli_query($con, $select_coordinator_query);
+	$result = mysqli_fetch_assoc($sel_r);
+
+	return $result;
+}

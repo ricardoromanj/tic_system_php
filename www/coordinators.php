@@ -11,13 +11,17 @@
  * 20140228 - RICARDO ROMAN - FIRST RELEASE
  * 
  */
+require 'includes/constants.php';
 
 // Check if user is logged in
 if (!isset($_COOKIE['user_id'])) {
 	require 'includes/sign_in_functions.php';
 	redirect_user('sign_in.php');
-} else if (!($_COOKIE['user_type'] == COORDINATOR_STRING || $_COOKIE['user_type'] == ADMINISTRATOR_STRING)) {
-	//redirect_user('not_found.php');
+}
+
+if (!($_COOKIE['user_type'] == ADMINISTRATOR_STRING)) {
+	require 'includes/sign_in_functions.php';
+	redirect_user('not_found.php');
 }
 // If the user is logged in, display the coordinators page
 
@@ -51,7 +55,7 @@ if (isset($_POST['coordinator_new'])) {
 	$new_coordinator_date_added = date("Y-m-d H:i:s", time());
 
 	// If new_coordinator_createuser, then create a new user for the coordinator
-	$new_coordinator_createuser = isset($_POST['coordinator_new_createuser']) && $_POST['coordinator_new_createuser']  ? true : false;
+	$new_coordinator_createuser = true;
 
 	if ($new_coordinator_createuser) {
 
@@ -75,7 +79,7 @@ if (isset($_POST['coordinator_new'])) {
 			$alerts[] = array(
 				"status" => "info",
 				"subject" => "¡Enhorabuena!",
-				"message" => "Se ha agregado nuevo coodrdinador con usuario: '".$user_new_username."'' y contraseña: '".$user_new_password."'"
+				"message" => "Se ha agregado nuevo coodrdinador con usuario: '".$user_new_username."' y contraseña: '".$user_new_password."'"
 			);
 			// Send email with username and password to the new user using admin account
 		}
@@ -86,7 +90,7 @@ if (isset($_POST['coordinator_new'])) {
 	// With data ready, add coordinator
 	$continue = true;
 
-	$results_alerts = add_coordinator($con, $new_coordinator_name, $new_coordinator_second_name, $new_coordinator_lastname,  $new_coordinator_second_lastname, $new_coordinator_gender, $new_coordinator_role, $new_coordinator_notes, $new_coordinator_date_added, $new_coordinator_user_id);
+	$results_alerts = add_coordinator($con, $new_coordinator_name, $new_coordinator_second_name, $new_coordinator_lastname,  $new_coordinator_second_lastname, $new_coordinator_gender, $new_coordinator_notes, $new_coordinator_date_added, $new_coordinator_user_id);
 
 	$new_coordinator_index = mysqli_insert_id($con);
 
@@ -206,6 +210,7 @@ if (isset($_POST['coordinator_delete'])) {
 $page_title = 'Coordinadores';
 $page_active = 'coordinators';
 include 'includes/_header.php';
+
 
 // Display the menu according to user type
 include 'includes/_menu.php';
