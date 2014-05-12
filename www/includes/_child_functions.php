@@ -7,28 +7,30 @@
  */
 
 // Add child
-function add_child($con, $new_child_name, $new_child_second_name, $new_child_lastname,  $new_child_second_lastname, $new_child_gender, $new_child_role, $new_child_notes, $new_child_date_added, $new_child_user_id) {
+function add_child($con, $new_child_name, $new_child_second_name, $new_child_lastname,  $new_child_second_lastname, $new_child_gender, $new_child_birthdate, $new_child_allergies, $new_child_medical_notes, $new_child_general_notes, $new_child_date_added) {
 
 	$alerts_local = array();
 
 	// Prepare the query with the new data
-	$new_child_query = "INSERT INTO child (child_name, child_second_name, child_lastname, child_second_lastname, child_gender, child_role, child_notes, child_picture, child_date_added, child_user_id) VALUES (
+	$new_child_query = "INSERT INTO child (child_name, child_second_name, child_lastname, child_second_lastname, child_gender, child_birthdate, child_allergies, child_medical_notes, child_general_notes, child_picture, child_date_added, child_active) VALUES (
 		'".$new_child_name."',
 		'".$new_child_second_name."',
 		'".$new_child_lastname."',
 		'".$new_child_second_lastname."',
 		'".$new_child_gender."',
-		'".$new_child_role."',
-		'".$new_child_notes."',
+		'".$new_child_birthdate."',
+		'".$new_child_allergies."',
+		'".$new_child_medical_notes."',
+		'".$new_child_general_notes."',
 		'',
 		'".$new_child_date_added."',
-		".$new_child_user_id.")";
+		'1')";
 
 	if (!@mysqli_query($con, $new_child_query)) {
 		$alerts[] = array(
 			"status" => "danger",
 			"subject" => "¡Error!",
-			"message" => "No se pudo agregar child." . $new_child_query.@mysqli_error($con)
+			"message" => "No se pudo inscribir niño." . $new_child_query.@mysqli_error($con)
 		);
 	}
 
@@ -55,7 +57,7 @@ function edit_child($con, $child_id, $data_attr) {
 		$alerts[] = array(
 			"status" => "danger",
 			"subject" => "¡Error!",
-			"message" => "No se pudo agregar child." . $new_child_query.@mysqli_error($con)
+			"message" => "No se pudo editar información del niño." . $new_child_query.@mysqli_error($con)
 		);
 	}
 
@@ -70,10 +72,10 @@ function delete_child($con, $child_id) {
 	$delete_child_query = "DELETE FROM child WHERE child_id = '".$child_id."' "; 
 	
 	if(!@mysqli_query($con, $delete_child_query)){
-		$alerts[] = array(
+		$alerts_local[] = array(
 			"status" => "danger",
 			"subject" => "¡Error!",
-			"message" => "No se pudo borrar al child seleccionado."
+			"message" => "No se pudo borrar al niño seleccionado."
 		);
 	}	
 
@@ -98,144 +100,71 @@ function select_child_with_id($con, $child_id) {
 	return $result;
 }
 
-// Add child email
-function add_emailchild($con, $email_address, $email_type, $child_id) {
+// Get all tutor names + ids for typeahead
+function get_tutors_for_typeahead($con) {
+
+	$result_array = array();
+
+	$query = "SELECT tutor_id, tutor_name, tutor_lastname FROM tutor";
+	$query_result = @mysqli_query($con, $query);
+
+	while ($tutor_row = mysqli_fetch_array($query_result)) {
+		$result_array[] = $tutor_row['tutor_id']." ".$tutor_row['tutor_name']." ".$tutor_row['tutor_lastname'];
+	}
+
+	return '["'.join('", "',$result_array).'"]';
+}
+
+// Assign child to tutor function
+function assign_child_to_tutor($con, $child_id, $tutor_id) {
 
 	$alerts_local = array();
 
-	$new_emailchild_query = "INSERT INTO emailchild (emailchild_address, emailchild_type, emailchild_primary, emailchild_child_id) VALUES (
-		'".$email_address."',
-		'".$email_type."',
-		null,
-		'".$child_id."')";
-	
-	if (!@mysqli_query($con, $new_emailchild_query)) {
+	$childtutor_create_query = "INSERT INTO childtutor (childtutor_tutor_id, childtutor_child_id) VALUES('".$tutor_id."', '".$child_id."')";
+
+	if(!@mysqli_query($con, $childtutor_create_query)){
 		$alerts_local[] = array(
 			"status" => "danger",
 			"subject" => "¡Error!",
-			"message" => "No se pudo agregar correo ".$email_address
+			"message" => "No se pudo asociar tutor con el niño seleccionado."
+		);
+	}
+
+
+	return (empty($alerts_local) ? null : $alerts_local);
+}
+
+// Unassign child from tutor function
+function unassign_child_from_tutor($con, $childtutor_id) {
+
+	$alerts_local = array();
+
+	$childtutor_delete_query = "DELETE FROM childtutor WHERE childtutor_id='".$childtutor_id."'";
+	if(!@mysqli_query($con, $childtutor_delete_query)){
+		$alerts_local[] = array(
+			"status" => "danger",
+			"subject" => "¡Error!",
+			"message" => "No se pudo borrar la información del niño seleccionado."
 		);
 	}
 
 	return (empty($alerts_local) ? null : $alerts_local);
 }
 
-// Edit child email
-function edit_emailchild($con, $emailchild_id, $email_address, $email_type) {
+// Delete all childtutor associations of a child
+function delete_childtutors_of_child($con, $child_id) {
 
 	$alerts_local = array();
 
-	$edit_emailchild_query = "UPDATE emailchild SET emailchild_address='".$email_address."', emailchild_type='".$email_type."' WHERE emailchild_id='".$emailchild_id."'";
+	$query = "DELETE FROM childtutor WHERE childtutor_child_id='".$child_id."'";
 
-	if (!@mysqli_query($con, $edit_emailchild_query)) {
+	if(!@mysqli_query($con, $query)){
 		$alerts_local[] = array(
 			"status" => "danger",
 			"subject" => "¡Error!",
-			"message" => "No se pudo modificar correo electrónico ".$email
+			"message" => "No se pudo borrar la información del niño seleccionado."
 		);
-	}
-
-	return (empty($alerts_local) ? null : $alerts_local);
-}
-
-// Delete child email
-function delete_emailchild($con, $emailchild_id) {
-
-	$alerts_local = array();
-
-	$delete_emailchild_query = "DELETE FROM emailchild WHERE emailchild_id='".$emailchild_id."'";
-
-	if (!@mysqli_query($con, $delete_emailchild_query)) {
-		$alerts_local[] = array(
-			"status" => "danger",
-			"subject" => "¡Error!",
-			"message" => "No se pudo borrar correo electrónico de child."
-			);
-	}
-
-	return (empty($alerts_local) ? null : $alerts_local);
-}
-
-// Add child phone
-function add_phonechild($con, $phone_number, $phone_type, $child_id) {
-
-	$alerts_local = array();
-
-	$new_phonechild_query = "INSERT INTO phonechild (phonechild_number, phonechild_type, phonechild_primary, phonechild_child_id) VALUES (
-		'".$phone_number."',
-		'".$phone_type."',
-		null,
-		'".$child_id."')";
-
-	if (!@mysqli_query($con, $new_phonechild_query)) {
-		$alerts_local[] = array(
-			"status" => "danger",
-			"subject" => "¡Error!",
-			"message" => "No se pudo agregar teléfono ".$phone
-		);
-	}
-
-	return (empty($alerts_local) ? null : $alerts_local);
-}
-
-// Edit child phone
-function edit_phonechild($con, $phonechild_id, $phone_number, $phone_type) {
-
-	$alerts_local = array();
-
-	$edit_phonechild_query = "UPDATE phonechild SET phonechild_number='".$phone_number."', phonechild_type='".$phone_type."' WHERE phonechild_id='".$phonechild_id."'";
-
-	if (!@mysqli_query($con, $edit_phonechild_query)) {
-		$alerts_local[] = array(
-			"status" => "danger",
-			"subject" => "¡Error!",
-			"message" => "No se pudo modificar teléfono ".$phone
-		);
-	}
-
-	return (empty($alerts_local) ? null : $alerts_local);
-}
-
-// Delete child phone
-function delete_phonechild($con, $phonechild_id) {
-
-	$alerts_local = array();
-
-	$delete_phonechild_query = "DELETE FROM phonechild WHERE phonechild_id='".$phonechild_id."'";
-
-	if (!@mysqli_query($con, $delete_phonechild_query)) {
-		$alerts_local[] = array(
-			"status" => "danger",
-			"subject" => "¡Error!",
-			"message" => "No se pudo borrar teléfono de child."
-			);
-	}
-
-	return (empty($alerts_local) ? null : $alerts_local);
-}
-
-// Delete child contact information
-function delete_child_contact_information($con, $child_id) {
-
-	$alerts_local = array();
-
-	$delete_emailchild_query = "DELETE FROM emailchild WHERE emailchild_child_id = '".$child_id."'";
-	if(!@mysqli_query($con, $delete_emailchild_query)){
-		$alerts_local[] = array(
-			"status" => "danger",
-			"subject" => "¡Error!",
-			"message" => "No se pudieron borrar los correos electrónicos asociados al child."
-		);
-	}
-
-	$delete_phonechild_query = "DELETE FROM phonechild WHERE phonechild_child_id = '".$child_id."'";
-	if(!@mysqli_query($con, $delete_phonechild_query)){
-		$alerts_local[] = array(
-			"status" => "danger",
-			"subject" => "¡Error!",
-			"message" => "No se pudieron borrar los números telefónicos asociados al child."
-		);
-	}
+	}	
 
 	return (empty($alerts_local) ? null : $alerts_local);
 }

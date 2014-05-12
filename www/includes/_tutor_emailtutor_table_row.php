@@ -40,7 +40,7 @@
 		        		<h3 class="modal-title text-danger" id="tutor_new_form_modal_label">¡Alerta!</h3>
 		      		</div> <? // Close modal header ?>
 		      		<div class="modal-body">
-		      			<h4>¿Realmente desea borrar el correo <?= $emailtutor_row['emailtutor_address']; ?>?</h4>
+		      			<p class="lead">¿Realmente desea borrar el correo <?= $emailtutor_row['emailtutor_address']; ?>?</p>
 		      			<br>
 		      			<form class="form-inline" role="form" method="POST" action="<?php $_PHP_SELF ?>">
 		      				<input type="text" id="emailtutor_delete" name="emailtutor_delete" value="emailtutor_delete" style="display: none;">

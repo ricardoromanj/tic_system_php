@@ -48,6 +48,7 @@ if (isset($_POST['child_new'])) {
 	$new_child_second_lastname = $_POST['child_new_second_lastname'];
 	$new_child_gender = $_POST['child_new_gender'];
 	$new_child_birthdate = $_POST['child_new_birthdate'];
+	$new_child_allergies = $_POST['child_new_allergies'];
 	$new_child_medical_notes = $_POST['child_new_medical_notes'];
 	$new_child_general_notes = $_POST['child_new_general_notes'];
 	$new_child_date_added = date("Y-m-d H:i:s", time());
@@ -55,7 +56,7 @@ if (isset($_POST['child_new'])) {
 	// With data ready, add child
 	$continue = true;
 
-	$results_alerts = add_child($con, $new_child_name, $new_child_second_name, $new_child_lastname,  $new_child_second_lastname, $new_child_gender, $new_child_role, $new_child_notes, $new_child_date_added, $new_child_user_id);
+	$results_alerts = add_child($con, $new_child_name, $new_child_second_name, $new_child_lastname,  $new_child_second_lastname, $new_child_gender, $new_child_birthdate, $new_child_allergies, $child_new_medical_notes, $child_new_general_notes, $new_child_date_added);
 
 	$new_child_index = mysqli_insert_id($con);
 
@@ -70,11 +71,21 @@ if (isset($_POST['child_new'])) {
 		$alerts[] = array(
 			"status" => "success",
 			"subject" => "¡Enhorabuena!",
-			"message" => "Se ha agregado a un nuevo coordinador."
+			"message" => "Se ha inscrito un nuevo niño."
 		);
 
 		// If successful, then assiciate to the corresponding tutor
-		
+		$tutors = $_POST['child_new_tutor'];
+
+		foreach ($tutors as $tutor) {
+			$pieces_tutor = explode(" ", $tutor);
+			$results_alerts = assign_child_to_tutor($con, $new_child_index, $pieces_tutor[0]);
+			if (!empty($results_alerts)) {
+				foreach ($results_alerts as $ra) {
+					$alerts[] = $ra;	
+				}
+			}
+		}
 
 	}
 
@@ -83,7 +94,7 @@ if (isset($_POST['child_new'])) {
 // Edit child -- This function will be in the detail page.
 
 // Delete child
-if (isset($_POST['child_delete'])) {
+if (isset($_GET['child_delete'])) {
 
 	/*
 	 * This will delete the child in the following sequence:
@@ -92,7 +103,7 @@ if (isset($_POST['child_delete'])) {
 	 *   Delete associated users
 	 */
 
-	$child_id = $_POST['child_id'];
+	$child_id = $_GET['child_id'];
 
 	$child_row = select_child_with_id($con, $child_id);
 
@@ -100,9 +111,17 @@ if (isset($_POST['child_delete'])) {
 		$alerts[] = array(
 			"status" => "danger",
 			"subject" => "¡Error!",
-			"message" => "Coordinador no encontrado."
+			"message" => "Niño no encontrado."
 		);
 	} else {
+
+		// Delete tutor associations
+		$results_alerts = delete_childtutors_of_child($con, $child_row['child_id']);
+		if (!empty($results_alerts)) {
+			foreach ($results_alerts as $ra) {
+				$alerts[] = $ra;	
+			}	
+		}
 
 		// Delete the child
 		$results_alerts = delete_child($con, $child_row['child_id']);
@@ -111,17 +130,16 @@ if (isset($_POST['child_delete'])) {
 				$alerts[] = $ra;	
 			}	
 		}
+
 	}
 
 	if (empty($alerts)) {
 		$alerts[] = array(
 			"status" => "success",
 			"subject" => "¡Enhorabuena!",
-			"message" => "Se ha eliminado al coordinador satisfactoriamente."
+			"message" => "Se ha borrado del sistema al niño seleccionado."
 		);
 	}
-
-
 }
 
 // Start with header and title

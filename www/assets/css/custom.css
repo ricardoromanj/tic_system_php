@@ -10,3 +10,7 @@ body {
 	border-left: 1px solid #eeeeee;
 	background-color: #fff;
 }
+
+.tic-sidemenu {
+	min-height: 200px;
+}

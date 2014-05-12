@@ -632,7 +632,8 @@ include 'includes/_menu.php';
 								}
 							?>
 						</tbody>
-						<table class="table table-striped table-hover table-condensed">
+					</table>
+					<table class="table table-striped table-hover table-condensed">
 						<thead>
 							<th>Correo</th>
 							<th>Tipo</th>
@@ -647,7 +648,6 @@ include 'includes/_menu.php';
 								}
 							?>
 						</tbody>
-					</table>
 					</table>
 				</div><? // Close column?>
 			</div><? // Close row ?>

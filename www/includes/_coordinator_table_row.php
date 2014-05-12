@@ -55,7 +55,7 @@
 		        <h3 class="modal-title text-danger" id="coordinator_new_form_modal_label">¡Alerta!</h3>
 		      </div> <!-- Close modal header -->
 		      <div class="modal-body">
-		      	<h4>¿Realmente desea borrar al coordinator <?= $coordinator_name_str; ?>?</h4>
+		      	<p class="lead">¿Realmente desea borrar al coordinator <?= $coordinator_name_str; ?>?</p>
 		      	<br>
 		      	<form class="form-inline" role="form" method="POST" action="<?php $_PHP_SELF ?>">
 		      		<input type="text" id="coordinator_delete" name="coordinator_delete" value="coordinator_delete" style="display: none;">
